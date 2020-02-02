@@ -78,11 +78,11 @@ class MenuController
     match = Entry.find_by(:name, name)
     system "clear"
 
-    if match
+    if !match.empty?
       puts match.to_s
       search_submenu(match)
     else
-      puts "No match found for #{name}"
+      puts "** No match found for #{name} **\n\n"
     end
   end
 

@@ -1,4 +1,4 @@
-require_relative '../models/address_book'
+require '/address_bloc/models/address_book'
 
 RSpec.describe AddressBook do
   let(:book) { AddressBook.new }
