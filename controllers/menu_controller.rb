@@ -8,13 +8,13 @@ class MenuController
   end
 
   def main_menu
-    puts "#{@address_book.name} Address Book - #{Entry.count} entries"
+    puts "#{@address_book.name} Address Book - (#{Entry.count} entries)\n\n"
     puts "1 - View all entries"
     puts "2 - Create an entry"
     puts "3 - Search for an entry"
     puts "4 - Import entries from a CSV"
     puts "5 - Exit"
-    print "Enter your selection: "
+    print "\nEnter your selection: "
 
     selection = gets.to_i
 
@@ -36,7 +36,7 @@ class MenuController
         read_csv
         main_menu
       when 5
-        puts "Good-bye!"
+        puts "\n** Good-bye! **\n\n"
         exit(0)
       else
         system "clear"
@@ -53,7 +53,7 @@ class MenuController
     end
 
     system "clear"
-    puts "End of entries"
+    puts "*** End of entries ***\n\n"
   end
 
   def create_entry
@@ -75,8 +75,9 @@ class MenuController
   def search_entries
     print "Search by name: "
     name = gets.chomp
-    match = Entry.find_by_name(name)
+    match = Entry.find_by(:name, name)
     system "clear"
+
     if match
       puts match.to_s
       search_submenu(match)
@@ -106,11 +107,13 @@ class MenuController
   end
 
   def entry_submenu(entry)
+    puts "\n"
     puts "n - next entry"
     puts "d - delete entry"
     puts "e - edit this entry"
     puts "m - return to main menu"
 
+    puts "\n"
     selection = gets.chomp
 
     case selection

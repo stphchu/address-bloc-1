@@ -1,4 +1,4 @@
-require_relative '../bloc_record/lib/bloc_record/base'
+require_relative '../../bloc_record/lib/bloc_record/base'
 
 class Entry < BlocRecord::Base
 
