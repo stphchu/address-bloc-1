@@ -7,6 +7,9 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    rspec-core (3.9.1)
+      rspec-support (~> 3.9.1)
+    rspec-support (3.9.2)
     sqlite3 (1.4.2)
 
 PLATFORMS
@@ -14,6 +17,7 @@ PLATFORMS
 
 DEPENDENCIES
   bloc_record!
+  rspec-core
 
 BUNDLED WITH
    1.16.2

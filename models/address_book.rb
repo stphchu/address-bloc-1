@@ -23,6 +23,4 @@ require 'bloc_record'
       add_entry(row_hash["name"], row_hash["phone_number"], row_hash["email"])
     end
   end
-
-
 end
