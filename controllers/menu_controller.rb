@@ -7,8 +7,9 @@ class MenuController
     @address_book = AddressBook.first
   end
 
+# main_menu
   def main_menu
-    puts "\"#{@address_book.name}\" Address Book Selected\n(#{@address_book.entries.count}) entries\n\n"
+    puts "\"#{@address_book.name}\" Address Book Selected\n[#{@address_book.entries.count} entries]\n\n"
     puts "0 - Switch AddressBook"
     puts "1 - View all entries"
     puts "2 - Create an entry"
@@ -17,7 +18,14 @@ class MenuController
     puts "5 - Exit"
     print "\nEnter your selection: "
 
-    selection = gets.to_i
+    selection = gets.chomp
+# test to avoid "enter" returning as 0
+    if selection.empty?
+      system "clear"
+      main_menu
+    else
+      selection = selection.to_i
+    end
 
     case selection
       when 0
@@ -50,32 +58,50 @@ class MenuController
     end
   end
 
+# select_address_book_menu
   def select_address_book_menu
     puts "Select an Address Book:"
     AddressBook.all.each_with_index do |address_book, index|
-      puts "#{index} - #{address_book.name}"
+      if @address_book.id == index + 1
+        current_text = "[Current]"
+      else
+        current_text = ""
+      end
+        puts "#{index} - #{address_book.name} (#{address_book.entries.count} entries) #{current_text}"
     end
 
-    index = gets.chomp.to_i
+    print "\nSelection: "
+# test to avoid "enter" returning as 0
+    index = gets.chomp
+    if index.empty?
+      system "clear"
+      main_menu
+    else
+      index = index.to_i
+    end
 
-    @address_book = AddressBook.find(index + 1)
+    address_book_temp = AddressBook.find(index + 1)
     system "clear"
-    return if @address_book
-    puts "Please select a valid index"
+    if address_book_temp
+      @address_book = address_book_temp
+      return @address_book
+    end
+    puts "** Please select a valid index **\n\n"
     select_address_book_menu
   end
 
+# view_all_entries
   def view_all_entries
     @address_book.entries.each do |entry|
       system "clear"
       puts entry.to_s
       entry_submenu(entry)
     end
-
     system "clear"
     puts "*** End of entries ***\n\n"
   end
 
+# create_entry
   def create_entry
     system "clear"
     puts "New AddressBloc Entry"
@@ -89,9 +115,10 @@ class MenuController
     address_book.add_entry(name, phone, email)
 
     system "clear"
-    puts "New entry created"
+    puts "** New entry created **\n\n"
   end
 
+# search_entries
   def search_entries
     print "Search by name: "
     name = gets.chomp
@@ -106,6 +133,7 @@ class MenuController
     end
   end
 
+# read_csv
   def read_csv
     print "Enter CSV file to import: "
     file_name = gets.chomp
@@ -126,6 +154,7 @@ class MenuController
     end
   end
 
+# entry_submenu
   def entry_submenu(entry)
     puts "\n"
     puts "n - next entry"
@@ -153,11 +182,13 @@ class MenuController
     end
   end
 
+# delete_entry
   def delete_entry(entry)
     address_book.entries.delete(entry)
     puts "#{entry.name} has been deleted"
   end
 
+# edit_entry
   def edit_entry(entry)
     print "Updated name: "
     name = gets.chomp
@@ -173,6 +204,7 @@ class MenuController
     puts entry
   end
 
+# search_submenu
   def search_submenu(entry)
     puts "\nd - delete entry"
     puts "e - edit this entry"
